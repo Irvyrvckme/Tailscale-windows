@@ -193,16 +193,18 @@ jobs:
           }
           Write-Host "TCP connectivity successful!"
 
-      - name: Maintain Connection
-        run: |
-          Write-Host "`n=== RDP ACCESS ==="
-          Write-Host "Address: $env:TAILSCALE_IP"
-          Write-Host "Username: RDP"
-          Write-Host "Password: $(echo $env:RDP_CREDS)"
-          Write-Host "==================`n"
-          
-          # Keep runner active indefinitely (or until manually cancelled)
-          while ($true) {
-              Write-Host "[$(Get-Date)] RDP Active - Use Ctrl+C in workflow to terminate"
-              Start-Sleep -Seconds 300
-          }
+      - - name: Maintain Connection
+  shell: pwsh
+  run: |
+    Write-Host ""
+    Write-Host "=== RDP ACCESS ==="
+    Write-Host "Address : $env:TAILSCALE_IP"
+    Write-Host "Username: $env:RDP_USER"
+    Write-Host "Password: $env:RDP_PASSWORD"
+    Write-Host "=================="
+    Write-Host ""
+
+    while ($true) {
+      Write-Host "[$(Get-Date)] RDP Active"
+      Start-Sleep -Seconds 300
+    }
